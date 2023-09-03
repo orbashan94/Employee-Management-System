@@ -21,7 +21,7 @@ function AddEmployee() {
     formdata.append("email", data.email);
     formdata.append("password", data.password);
     formdata.append("address", data.address);
-    // formdata.append("salary", data.salary);
+    formdata.append("salary", data.salary);
     formdata.append("image", data.image);
     axios
       .post(URL + "/create", formdata)
