@@ -56,9 +56,12 @@ function Employee() {
                   <td>{employee.address}</td>
                   <td>{employee.salary}</td>
                   <td>
-                    <button className="btn btn-primary btn-sm me-2">
+                    <Link
+                      to={`/employeeEdit/` + employee.id}
+                      className="btn btn-primary btn-sm me-2"
+                    >
                       edit
-                    </button>
+                    </Link>
                     <button className="btn btn-sm btn-danger">delete</button>
                   </td>
                 </tr>
