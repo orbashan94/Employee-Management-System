@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./style.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { URL } from "../config";
 
 function Login() {
   const [values, setValues] = useState({
@@ -16,10 +17,10 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:8081/login", values)
+      .post(URL + "/login", values)
       .then((res) => {
         if (res.data.Status === "Success") {
-            navigate('/');
+          navigate("/");
         } else {
           setError(res.data.Error);
         }
