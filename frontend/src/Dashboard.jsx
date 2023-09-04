@@ -1,8 +1,31 @@
-import React from 'react'
+import React, { useEffect } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { URL } from "../config";
+import axios from "axios";
 
 function Dashboard() {
+  const navigate = useNavigate();
+  axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+    axios.get(URL + "/dashboard").then((res) => {
+      if (res.data.Status === "Success") {
+      } else {
+        navigate("/login");
+      }
+    });
+  }, []);
+
+  const handleLogout = () => {
+    axios
+      .get(URL + "/logout")
+      .then((res) => {
+        navigate("/login");
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="container-fluid">
       <div className="row flex-nowrap">
@@ -27,7 +50,10 @@ function Dashboard() {
                 </Link>
               </li>
               <li>
-                <Link to="/employee" className="nav-link px-0 align-middle text-white">
+                <Link
+                  to="/employee"
+                  className="nav-link px-0 align-middle text-white"
+                >
                   <i className="fs-4 bi-power"></i>{" "}
                   <span className="ms-1 d-none d-sm-inline">
                     Manage Employees
@@ -35,12 +61,15 @@ function Dashboard() {
                 </Link>
               </li>
               <li>
-                <Link to="/profile" className="nav-link px-0 align-middle text-white">
+                <Link
+                  to="/profile"
+                  className="nav-link px-0 align-middle text-white"
+                >
                   <i className="fs-4 bi-power"></i>{" "}
                   <span className="ms-1 d-none d-sm-inline">Profile</span>
                 </Link>
               </li>
-              <li>
+              <li onClick={handleLogout}>
                 <a href="#" className="nav-link px-0 align-middle text-white">
                   <i className="fs-4 bi-power"></i>{" "}
                   <span className="ms-1 d-none d-sm-inline">Logout</span>
@@ -49,15 +78,15 @@ function Dashboard() {
             </ul>
           </div>
         </div>
-        <div class="col p-0 m-0">
+        <div className="col p-0 m-0">
           <div className="p-2 d-flex justify-content-center shadow">
             <h4>Employee Management System</h4>
           </div>
-          <Outlet/>
+          <Outlet />
         </div>
       </div>
     </div>
   );
 }
 
-export default Dashboard
+export default Dashboard;

@@ -3,6 +3,7 @@ import "./style.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { URL } from "../config";
+import Cookies from "universal-cookie";
 
 function Login() {
   const [values, setValues] = useState({
@@ -10,16 +11,25 @@ function Login() {
     password: "",
   });
 
+  const cookies = new Cookies();
+
   const navigate = useNavigate();
 
   const [error, setError] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .post(URL + "/login", values)
+    axios({
+      url: URL + "/login",
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      data: values,
+      withCredentials: true,
+    })
       .then((res) => {
         if (res.data.Status === "Success") {
+          cookies.set("token", res.data.Token);
+
           navigate("/");
         } else {
           setError(res.data.Error);
