@@ -1,6 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { URL } from "../config";
 
 function Home() {
+  const [adminCount, setAdminCount] = useState();
+  const [employeeCount, setEmployeeCount] = useState();
+  const [salary, setSalary] = useState();
+
+  useEffect(() => {
+    //admin count
+    axios
+      .get(URL + "/adminCount")
+      .then((res) => {
+        setAdminCount(res.data[0].admin);
+      })
+      .catch((err) => console.log(err));
+
+    //employee count
+    axios
+      .get(URL + "/employeeCount")
+      .then((res) => {
+        setEmployeeCount(res.data[0].employee);
+      })
+      .catch((err) => console.log(err));
+
+    //sum of salary
+    axios
+      .get(URL + "/salary")
+      .then((res) => {
+        setSalary(res.data[0].sumOfSalary);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div>
       <div className="p-3 d-flex justify-content-around mt-3">
@@ -10,7 +41,7 @@ function Home() {
           </div>
           <hr />
           <div className="">
-            <h5>Total: {}</h5>
+            <h5>Total: {adminCount}</h5>
           </div>
         </div>
         <div className="px-3 pt-2 pb-3 border shadow-sm w-25">
@@ -19,7 +50,7 @@ function Home() {
           </div>
           <hr />
           <div className="">
-            <h5>Total: {}</h5>
+            <h5>Total: {employeeCount}</h5>
           </div>
         </div>
         <div className="px-3 pt-2 pb-3 border shadow-sm w-25">
@@ -28,7 +59,7 @@ function Home() {
           </div>
           <hr />
           <div className="">
-            <h5>Total: {}</h5>
+            <h5>Total: {salary}</h5>
           </div>
         </div>
       </div>
@@ -55,4 +86,4 @@ function Home() {
   );
 }
 
-export default Home
+export default Home;

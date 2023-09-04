@@ -11,8 +11,14 @@ function Dashboard() {
   useEffect(() => {
     axios.get(URL + "/dashboard").then((res) => {
       if (res.data.Status === "Success") {
+        if (res.data.role === "admin") {
+          navigate("/");
+        } else {
+          const id = res.data.id;
+          navigate("/employeedetail/" + id);
+        }
       } else {
-        navigate("/login");
+        navigate("/start");
       }
     });
   }, []);
@@ -21,7 +27,7 @@ function Dashboard() {
     axios
       .get(URL + "/logout")
       .then((res) => {
-        navigate("/login");
+        navigate("/start");
       })
       .catch((err) => console.log(err));
   };
